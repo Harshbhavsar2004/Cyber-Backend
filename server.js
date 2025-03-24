@@ -7,12 +7,12 @@ const port = 3001;
 
 const corsOptions = {
     origin: [
-        'https://cyber-frontend-jade.vercel.app/',
+        'https://cyber-frontend-jade.vercel.app',  // Production frontend
+        'https://cyber-frontend-jade.vercel.app/', // Alternative production URL format
     ],
-    methods: ['GET', 'POST'],  // Specify allowed methods
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Specify allowed headers
-    credentials: true,  // Allow credentials (cookies, authorization headers, etc.)
-    maxAge: 86400  // Cache preflight requests for 24 hours
+    methods: ['GET', 'POST', 'OPTIONS'],  // Added OPTIONS for preflight requests
+    allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept'],  // Added more headers
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
