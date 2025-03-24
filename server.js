@@ -5,7 +5,17 @@ const app = express();
 const cors = require('cors');
 const port = 3001;
 
-app.use(cors());
+const corsOptions = {
+    origin: [
+        'https://cyber-frontend-jade.vercel.app/',
+    ],
+    methods: ['GET', 'POST'],  // Specify allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Specify allowed headers
+    credentials: true,  // Allow credentials (cookies, authorization headers, etc.)
+    maxAge: 86400  // Cache preflight requests for 24 hours
+};
+
+app.use(cors(corsOptions));
 // Path to your service account credentials JSON file
 const CREDENTIALS_PATH = path.join(__dirname, 'credentials.json');
 
