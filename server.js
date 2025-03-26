@@ -4,11 +4,13 @@ const path = require('path');
 const app = express();
 const cors = require('cors');
 const port = 3001;
+const dotenv = require('dotenv');
+dotenv.config();
 
 const corsOptions = {
     origin: [
         'https://cyber-frontend-jade.vercel.app',  // Production frontend
-        'https://cyber-frontend-jade.vercel.app/', // Alternative production URL format
+        'https://cyber-frontend-jade.vercel.app/',
     ],
     methods: ['GET', 'POST', 'OPTIONS'],  // Added OPTIONS for preflight requests
     allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept'],  // Added more headers
@@ -16,12 +18,23 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// Path to your service account credentials JSON file
-const CREDENTIALS_PATH = path.join(__dirname, 'credentials.json');
 
-// Load the service account credentials
+const credentials = {
+    type: "service_account",
+    project_id: process.env.PROJECT_ID,
+    private_key_id: process.env.PRIVATE_KEY_ID,
+    private_key: process.env.PRIVATE_KEY,
+    client_email: process.env.CLIENT_EMAIL,
+    client_id: process.env.CLIENT_ID,
+    auth_uri: process.env.AUTH_URI,
+    token_uri: process.env.TOKEN_URI,
+    auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
+    client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
+};
+
+// Initialize Google Auth
 const auth = new google.auth.GoogleAuth({
-    keyFile: CREDENTIALS_PATH,
+    credentials,
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
